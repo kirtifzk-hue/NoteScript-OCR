@@ -1,0 +1,6 @@
+{
+  "name": "NoteScript OCR",
+  "description": "Convert handwritten student notes from images and PDFs into digital text. Edit, format, and export as Word or PDF with A4 print-ready layouts.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

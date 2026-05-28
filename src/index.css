@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-sophis-bg: #0A0B0E;
+  --color-sophis-panel: #0F1117;
+  --color-sophis-surface: #15171C;
+  --color-sophis-border: #1F232B;
+  --color-sophis-border-light: #2D323C;
+  --color-sophis-text: #E0E2E7;
+  --color-sophis-text-muted: #8E9299;
+  --color-sophis-text-dim: #565C66;
+  --color-sophis-blue: #3B82F6;
+}
+
+@layer base {
+  body {
+    @apply bg-sophis-bg text-sophis-text antialiased;
+  }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #2D323C;
+  border-radius: 10px;
+}
+
+.markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.markdown-content th, .markdown-content td {
+  border: 1px solid #E5E7EB;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.markdown-content th {
+  background-color: #F9FAFB;
+  font-weight: 600;
+}
+
+.katex-display {
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.katex {
+  font-size: 1.1em;
+}
