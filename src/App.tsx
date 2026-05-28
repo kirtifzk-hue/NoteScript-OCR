@@ -211,34 +211,49 @@ export default function App() {
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-sophis-bg text-sophis-text font-sans">
       {/* Header */}
-      <header className="h-16 border-b border-sophis-border flex items-center justify-between px-8 bg-sophis-panel flex-shrink-0">
-        <div className="flex items-center gap-6">
-          <div className="bg-sophis-blue p-2 rounded-lg cursor-pointer" onClick={() => setView('home')}>
-            <FileText className="w-5 h-5 text-white" />
+      <header className="h-16 border-b border-sophis-border flex items-center justify-between px-4 md:px-8 bg-sophis-panel flex-shrink-0 z-40">
+        <div className="flex items-center gap-2 sm:gap-6">
+          <div className="bg-sophis-blue p-1.5 sm:p-2 rounded-lg cursor-pointer" onClick={() => setView('home')}>
+            <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
           </div>
-          <span className="font-serif text-xl italic tracking-tight cursor-pointer" onClick={() => setView('home')}>
+          <span className="font-serif text-lg sm:text-xl italic tracking-tight cursor-pointer" onClick={() => setView('home')}>
             Scripto<span className="text-sophis-blue">OCR</span>
           </span>
-          <nav className="hidden md:flex gap-8 ml-8 text-sm uppercase tracking-widest text-sophis-text-muted">
+          <nav className="flex gap-4 sm:gap-8 ml-3 sm:ml-8 text-xs sm:text-sm uppercase tracking-widest text-sophis-text-muted">
             <button 
-              onClick={() => setView('editor')}
-              className={cn("hover:text-white transition-colors pb-1", view === 'editor' && "text-white border-b border-white")}
+              onClick={() => setView('home')}
+              className={cn("hover:text-white transition-colors pb-1", view === 'home' && "text-white border-b border-white")}
             >
-              Editor
+              Home
             </button>
+            {(transcribedText || view === 'editor') && (
+              <button 
+                onClick={() => setView('editor')}
+                className={cn("hover:text-white transition-colors pb-1", view === 'editor' && "text-white border-b border-white")}
+              >
+                Editor
+              </button>
+            )}
           </nav>
         </div>
-        <div className="flex items-center gap-4">
-          <div className="flex bg-sophis-bg p-1 rounded-full border border-sophis-border-light">
+        <div className="flex items-center gap-2 sm:gap-4">
+          <button 
+            onClick={() => fileInputRef.current?.click()}
+            className="md:hidden flex items-center justify-center p-2 bg-sophis-blue hover:bg-blue-600 text-white rounded-lg transition-all"
+            title="Upload note"
+          >
+            <Upload className="w-4 h-4" />
+          </button>
+          <div className="flex bg-sophis-bg p-0.5 sm:p-1 rounded-full border border-sophis-border-light">
             <button 
               onClick={() => setTheme('dark')}
-              className={cn("px-4 py-1 rounded-full text-xs font-semibold transition-all", theme === 'dark' ? "bg-sophis-border-light text-white" : "text-sophis-text-muted")}
+              className={cn("px-2 sm:px-4 py-1 rounded-full text-[10px] sm:text-xs font-semibold transition-all", theme === 'dark' ? "bg-sophis-border-light text-white" : "text-sophis-text-muted")}
             >
               Dark
             </button>
             <button 
               onClick={() => setTheme('light')}
-              className={cn("px-4 py-1 rounded-full text-xs font-semibold transition-all", theme === 'light' ? "bg-white text-black" : "text-sophis-text-muted")}
+              className={cn("px-2 sm:px-4 py-1 rounded-full text-[10px] sm:text-xs font-semibold transition-all", theme === 'light' ? "bg-white text-black" : "text-sophis-text-muted")}
             >
               Light
             </button>
@@ -247,9 +262,9 @@ export default function App() {
       </header>
 
       {/* Main Workspace */}
-      <div className="flex-1 flex overflow-hidden">
-        {/* Left Rail */}
-        <aside className="w-16 border-r border-sophis-border flex flex-col items-center py-6 gap-8 bg-sophis-panel flex-shrink-0">
+      <div className="flex-1 flex overflow-hidden relative">
+        {/* Left Rail - Hidden on Mobile */}
+        <aside className="hidden md:flex w-16 border-r border-sophis-border flex-col items-center py-6 gap-8 bg-sophis-panel flex-shrink-0">
           <button 
             onClick={() => setView('home')}
             className={cn("p-3 rounded-xl transition-all", view === 'home' ? "text-sophis-blue bg-sophis-blue/10" : "text-sophis-text-muted hover:text-white")} 
@@ -275,26 +290,26 @@ export default function App() {
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 1.02 }}
-                className="flex-1 overflow-y-auto custom-scrollbar p-6 lg:p-12"
+                className="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 lg:p-12"
               >
-                <div className="max-w-6xl mx-auto space-y-12 lg:space-y-20">
-                  <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[500px]">
-                    <div className="space-y-8">
-                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sophis-blue/10 border border-sophis-blue/20 text-sophis-blue text-[10px] font-bold tracking-[0.2em] uppercase">
+                <div className="max-w-6xl mx-auto space-y-8 lg:space-y-16">
+                  <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+                    <div className="space-y-3 md:space-y-6 text-center lg:text-left">
+                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sophis-blue/10 border border-sophis-blue/20 text-sophis-blue text-[9px] md:text-[10px] font-bold tracking-[0.2em] uppercase mx-auto lg:mx-0">
                         <CheckCircle2 className="w-3 h-3" />
                         Next-Gen Handwriting Analysis
                       </div>
-                      <div className="space-y-6">
-                        <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl italic leading-[1.1]">
-                          Transcribe <span className="text-sophis-blue underline decoration-sophis-blue/30 underline-offset-8">Notes</span> with Precision
+                      <div className="space-y-3 sm:space-y-6">
+                        <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-7xl italic leading-[1.15]">
+                          Transcribe <span className="text-sophis-blue underline decoration-sophis-blue/30 underline-offset-4">Notes</span> with Precision
                         </h1>
-                        <p className="text-lg text-sophis-text-muted font-medium max-w-lg leading-relaxed">
+                        <p className="text-xs sm:text-sm md:text-lg text-sophis-text-muted font-medium max-w-lg leading-relaxed mx-auto lg:mx-0">
                           The professional choice for researchers and students. Industrial grade OCR for handwritten notes, equations, and archives.
                         </p>
                       </div>
                     </div>
 
-                    <div className="w-full max-w-xl group relative lg:ml-auto"
+                    <div className="w-full max-w-xl group relative lg:ml-auto mt-6 lg:mt-0"
                       onDragOver={(e) => e.preventDefault()}
                       onDrop={(e) => {
                         e.preventDefault();
@@ -308,15 +323,15 @@ export default function App() {
                         }
                       }}
                     >
-                      <div className="absolute -top-10 left-0 right-0 flex justify-center items-center gap-3">
-                        <span className={cn("text-[10px] font-bold tracking-widest transition-colors", !autoCorrect ? "text-white" : "text-sophis-text-muted")}>VERBATIM</span>
+                      <div className="absolute -top-7 left-0 right-0 flex justify-center items-center gap-3">
+                        <span className={cn("text-[9px] md:text-[10px] font-bold tracking-widest transition-colors", !autoCorrect ? "text-white" : "text-sophis-text-muted")}>VERBATIM</span>
                         <button 
                           onClick={() => setAutoCorrect(!autoCorrect)}
                           className="w-10 h-5 bg-sophis-surface border border-sophis-border-light rounded-full p-0.5 transition-all relative"
                         >
                           <div className={cn("w-3.5 h-3.5 rounded-full transition-all bg-sophis-blue shadow-lg shadow-blue-500/50", autoCorrect ? "translate-x-5" : "translate-x-0")} />
                         </button>
-                        <span className={cn("text-[10px] font-bold tracking-widest transition-colors", autoCorrect ? "text-sophis-blue" : "text-sophis-text-muted")}>TEACHER CORRECTION</span>
+                        <span className={cn("text-[9px] md:text-[10px] font-bold tracking-widest transition-colors", autoCorrect ? "text-sophis-blue" : "text-sophis-text-muted")}>TEACHER CORRECTION</span>
                       </div>
                       <input 
                         type="file" 
@@ -328,20 +343,20 @@ export default function App() {
                       />
                       <div 
                         onClick={() => fileInputRef.current?.click()}
-                        className="cursor-pointer bg-sophis-surface border-2 border-dashed border-sophis-border-light group-hover:border-sophis-blue rounded-[2.5rem] p-12 lg:p-16 flex flex-col items-center gap-6 transition-all duration-500 shadow-2xl shadow-blue-500/5 group-hover:scale-[1.01]"
+                        className="cursor-pointer bg-sophis-surface border-2 border-dashed border-sophis-border-light group-hover:border-sophis-blue rounded-[1.5rem] sm:rounded-[2.5rem] p-8 sm:p-12 lg:p-16 flex flex-col items-center gap-4 sm:gap-6 transition-all duration-500 shadow-2xl shadow-blue-500/5 group-hover:scale-[1.01]"
                       >
-                        <div className="w-20 h-20 bg-sophis-blue/10 rounded-2xl flex items-center justify-center">
-                          <Upload className="w-10 h-10 text-sophis-blue" />
+                        <div className="w-14 h-14 sm:w-20 sm:h-20 bg-sophis-blue/10 rounded-2xl flex items-center justify-center">
+                          <Upload className="w-8 h-8 sm:w-10 sm:h-10 text-sophis-blue" />
                         </div>
-                        <div className="text-center space-y-2">
-                          <h3 className="text-2xl font-bold tracking-tight">Drop your notes here</h3>
-                          <p className="text-sophis-text-dim uppercase tracking-widest text-[10px] font-bold">Supports PDF, PNG, JPG</p>
+                        <div className="text-center space-y-1 sm:space-y-2">
+                          <h3 className="text-lg sm:text-2xl font-bold tracking-tight">Drop your notes here</h3>
+                          <p className="text-sophis-text-dim uppercase tracking-widest text-[9px] font-bold">Supports PDF, PNG, JPG</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full pb-12">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full pb-8">
                      <FeatureCard 
                       title="Intelligent Editor"
                       desc="Fluid text editing with automatic formatting preservation."
@@ -365,14 +380,20 @@ export default function App() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="flex-1 flex overflow-hidden"
+                className="flex-1 flex flex-col lg:flex-row overflow-hidden"
               >
                 {/* Left Panel: File Info */}
-                <div className="w-[320px] border-r border-sophis-border bg-sophis-bg p-8 flex flex-col gap-8 flex-shrink-0">
+                <div className="w-full lg:w-[320px] lg:border-r border-sophis-border bg-sophis-bg p-4 sm:p-8 flex flex-col gap-6 sm:gap-8 flex-1 overflow-y-auto lg:overflow-hidden lg:flex-shrink-0">
                   <div>
+                    <button 
+                      onClick={() => setView('home')}
+                      className="mb-4 inline-flex items-center gap-1.5 text-xs font-bold text-sophis-blue hover:text-blue-400 uppercase tracking-widest transition-colors"
+                    >
+                      ← BACK TO HOME
+                    </button>
                     <h2 className="text-[10px] uppercase tracking-[0.2em] text-sophis-text-muted mb-4 font-bold">Selected File</h2>
-                    <div className="bg-sophis-surface border border-sophis-border-light rounded-xl p-5 flex items-center gap-4">
-                      <div className="text-red-500 bg-red-500/10 p-2 rounded-lg">
+                    <div className="bg-sophis-surface border border-sophis-border-light rounded-xl p-4 sm:p-5 flex items-center gap-4">
+                      <div className="text-red-500 bg-red-500/10 p-2 rounded-lg flex-shrink-0">
                         <FileText className="w-8 h-8" />
                       </div>
                       <div className="flex-1 min-w-0">
@@ -387,7 +408,7 @@ export default function App() {
                   <div className="flex-1 flex flex-col overflow-hidden">
                     <div className="flex justify-between items-center mb-1 text-[10px] font-bold tracking-widest">
                       <h2 className="uppercase tracking-[0.2em] text-sophis-text-muted">Selection</h2>
-                      <div className="flex gap-4">
+                      <div className="flex gap-4 text-[9px]">
                         <button 
                           onClick={() => setSelectedPages([])}
                           className="text-red-400 hover:text-red-300 transition-colors"
@@ -414,7 +435,7 @@ export default function App() {
                       <span className={cn("text-[8px] font-bold tracking-widest transition-colors", autoCorrect ? "text-sophis-blue" : "text-sophis-text-muted")}>CORRECTION</span>
                     </div>
                     
-                    <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar grid grid-cols-2 gap-4 auto-rows-max">
+                    <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar grid grid-cols-2 gap-3 sm:gap-4 auto-rows-max">
                       {pdfPages.map(page => (
                         <div 
                           key={page.index}
@@ -441,15 +462,15 @@ export default function App() {
                     <button 
                       onClick={processSelectedPdfPages}
                       disabled={selectedPages.length === 0}
-                      className="mt-8 w-full py-5 bg-sophis-blue text-white font-bold rounded-xl shadow-xl shadow-blue-500/20 uppercase tracking-widest text-xs disabled:opacity-30 transition-all hover:translate-y-[-2px]"
+                      className="mt-6 sm:mt-8 w-full py-4 sm:py-5 bg-sophis-blue text-white font-bold rounded-xl shadow-xl shadow-blue-500/20 uppercase tracking-widest text-xs disabled:opacity-30 transition-all hover:translate-y-[-2px]"
                     >
                       Run OCR on Selection
                     </button>
                   </div>
                 </div>
 
-                {/* Right Panel: Large Preview (Optional or empty space) */}
-                <div className="flex-1 bg-sophis-panel flex items-center justify-center p-12">
+                {/* Right Panel: Large Preview (Optional or empty space) - Hidden on Mobile */}
+                <div className="hidden lg:flex flex-1 bg-sophis-panel items-center justify-center p-12">
                    <div className="text-center space-y-4">
                      <FileText className="w-20 h-20 text-sophis-border-light mx-auto" />
                      <p className="text-sophis-text-dim text-sm tracking-widest uppercase font-bold italic">Preview Mode</p>
@@ -464,10 +485,10 @@ export default function App() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="flex-1 flex overflow-hidden"
+                className="flex-1 flex flex-col lg:flex-row overflow-hidden"
               >
-                {/* Left Panel: Actions */}
-                <div className="w-[320px] border-r border-sophis-border bg-sophis-bg p-8 flex flex-col gap-10 flex-shrink-0">
+                {/* Left Panel: Actions - Hidden on mobile, actions bar at bottom instead */}
+                <div className="hidden lg:flex w-[320px] border-r border-sophis-border bg-sophis-bg p-8 flex flex-col gap-10 flex-shrink-0">
                   <div className="space-y-6">
                     <div>
                       <h2 className="text-[10px] uppercase tracking-[0.2em] text-sophis-text-muted mb-4 font-bold">Document</h2>
@@ -511,7 +532,7 @@ export default function App() {
                 </div>
 
                 {/* Main Workspace: A4 Editor */}
-                <div className="flex-1 bg-sophis-panel p-10 flex flex-col overflow-hidden items-center relative">
+                <div className="flex-1 bg-sophis-panel p-2 sm:p-4 lg:p-10 flex flex-col overflow-hidden items-center relative">
                   {isProcessing ? (
                     <div className="absolute inset-0 z-50 flex items-center justify-center bg-sophis-panel/90 backdrop-blur-sm">
                       <div className="text-center space-y-8">
@@ -526,7 +547,7 @@ export default function App() {
 
                   <div className="w-full max-w-4xl h-full flex flex-col bg-sophis-bg rounded-2xl border border-sophis-border shadow-2xl relative overflow-hidden">
                     {/* Toolbar */}
-                    <div className="h-12 border-b border-sophis-border bg-sophis-surface flex items-center px-6 gap-8 flex-shrink-0">
+                    <div className="h-auto md:h-12 border-b border-sophis-border bg-sophis-surface flex flex-wrap items-center px-4 py-2 md:py-0 md:px-6 gap-3 md:gap-8 flex-shrink-0">
                       <div className="flex bg-sophis-bg p-1 rounded-lg border border-sophis-border-light">
                         <button 
                           onClick={() => setShowPreview(false)}
@@ -541,7 +562,7 @@ export default function App() {
                           PREVIEW
                         </button>
                       </div>
-                      <div className="h-4 w-[1px] bg-sophis-border"></div>
+                      <div className="hidden sm:block h-4 w-[1px] bg-sophis-border"></div>
                       <button 
                         onClick={handleCopy}
                         disabled={!transcribedText}
@@ -556,18 +577,18 @@ export default function App() {
                         {isCopied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
                         {isCopied ? "COPIED!" : "COPY TEXT"}
                       </button>
-                      <div className="h-4 w-[1px] bg-sophis-border"></div>
-                      <span className="text-[10px] text-sophis-text-muted font-bold uppercase tracking-widest">A4 Layout • 11pt</span>
+                      <div className="hidden sm:block h-4 w-[1px] bg-sophis-border"></div>
+                      <span className="hidden sm:inline text-[10px] text-sophis-text-muted font-bold uppercase tracking-widest">A4 Layout • 11pt</span>
                       <div className="ml-auto flex items-center gap-2 text-[9px] text-sophis-text-dim font-mono uppercase">
                         <span className="w-2 h-2 rounded-full bg-green-500"></span> Live Synced
                       </div>
                     </div>
 
                     {/* Scrollable A4 Preview */}
-                    <div className="flex-1 overflow-y-auto p-16 custom-scrollbar flex justify-center bg-sophis-panel">
-                      <div className="w-[210mm] min-h-[297mm] bg-white text-[#1a1a1a] shadow-inner p-20 flex flex-col shadow-2xl">
+                    <div className="flex-1 overflow-y-auto p-2 sm:p-4 lg:p-16 custom-scrollbar flex justify-center bg-sophis-panel w-full">
+                      <div className="w-full max-w-full md:w-[210mm] min-h-[300px] md:min-h-[297mm] bg-white text-[#1a1a1a] shadow-inner p-4 sm:p-10 md:p-20 flex flex-col shadow-2xl rounded-lg md:rounded-none">
                          {showPreview ? (
-                           <div className="markdown-content prose prose-sm max-w-none">
+                           <div className="markdown-content prose prose-sm max-w-none text-[#1a1a1a]">
                              <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]}>
                                {transcribedText || "_No text transcribed yet..._"}
                              </ReactMarkdown>
@@ -577,16 +598,45 @@ export default function App() {
                             value={transcribedText}
                             onChange={(e) => setTranscribedText(e.target.value)}
                             placeholder="Transcribed academic text will materialize here..."
-                            className="w-full flex-1 resize-none outline-none font-sans text-[11.5pt] leading-[1.8] tracking-tight placeholder:text-gray-300"
-                          />
+                            className="w-full flex-1 resize-none outline-none font-sans text-xs sm:text-sm md:text-[11.5pt] leading-[1.8] tracking-tight placeholder:text-gray-300 bg-transparent text-[#1a1a1a]"
+                           />
                          )}
                         <div className="mt-12 pt-8 border-t border-gray-100 flex justify-between items-center text-[9px] text-gray-400 font-serif italic">
                            <span>NoteScript OCR Engine Generated Output</span>
                            <span>{new Date().toLocaleDateString()}</span>
-                        </div>
+                         </div>
                       </div>
                     </div>
                   </div>
+                </div>
+
+                {/* Mobile action bar for export/clear - only visible on screens < lg */}
+                <div className="lg:hidden flex items-center justify-between w-full border-t border-sophis-border bg-sophis-surface p-4 gap-3 flex-shrink-0">
+                  <button 
+                    onClick={() => exportToPDF(transcribedText)}
+                    disabled={!transcribedText}
+                    className="flex-1 py-3 bg-white hover:bg-sophis-text text-black font-bold rounded-xl text-xs uppercase tracking-wider transition-colors shadow-lg disabled:opacity-40"
+                  >
+                    PDF
+                  </button>
+                  <button 
+                    onClick={() => exportToWord(transcribedText)}
+                    disabled={!transcribedText}
+                    className="flex-1 py-3 bg-sophis-panel border border-sophis-border-light hover:border-sophis-blue text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-colors disabled:opacity-40"
+                  >
+                    Word
+                  </button>
+                  <button 
+                    onClick={() => {
+                      if (confirm("Are you sure you want to clear the editor?")) {
+                        setTranscribedText('');
+                      }
+                    }}
+                    disabled={!transcribedText}
+                    className="px-4 py-3 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 font-bold rounded-xl text-xs uppercase tracking-wider transition-all disabled:opacity-40"
+                  >
+                    Clear
+                  </button>
                 </div>
               </motion.section>
             )}
